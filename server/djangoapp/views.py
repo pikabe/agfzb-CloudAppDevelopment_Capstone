@@ -9,6 +9,7 @@ from django.contrib import messages
 from datetime import datetime
 import logging
 import json
+from .models import CarDealer
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -90,12 +91,19 @@ def registration_request(request):
 def get_dealerships(request):
     context = {}
     if request.method == "GET":
+        dealerships = CarDealer.objects.all()
+        context = {'dealership_list': dealerships}
         return render(request, 'djangoapp/index.html', context)
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
-# def get_dealer_details(request, dealer_id):
-# ...
+def get_dealer_details(request, dealer_id):
+    context = {}
+    if request.method == "GET":
+        dealerships = CarDealer.objects.all(id =dealer_id)
+        context = {'dealership_list': dealerships}
+        return render(request, 'djangoapp/index.html', context)
+
 
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
