@@ -9,7 +9,7 @@ from django.contrib import messages
 from datetime import datetime
 import logging
 import json
-from .models import CarDealer, DealerReview
+from .models import CarDealer, DealerReview, CarModel
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -107,8 +107,42 @@ def get_dealer_details(request, dealer_id):
 
 
 # Create a `add_review` view to submit a review
+# def add_review(request, dealer_id):
+#      context = {}
+#      return render(request, 'djangoapp/add_review.html', context)
+
 def add_review(request, dealer_id):
-     context = {}
-     return render(request, 'djangoapp/add_review.html', context)
+    dealer = get_object_or_404(CarDealer, pk=dealer_id)
+
+    if request.method == 'GET':
+        # Query the cars with the dealer id to be reviewed
+        cars = CarModel.objects.filter(dealer_id=dealer_id)
+        context = {'dealer': dealer, 'cars': cars}
+        return render(request, 'djangoapp/add_review.html', context)
 
 
+    # elif request.method == 'POST':
+    #     # Get values from the review form
+    #     content = request.POST.get('content')
+    #     purchasecheck = request.POST.get('purchasecheck', False)
+    #     car_id = request.POST.get('car')
+    #     purchasedate = request.POST.get('purchasedate')
+
+    #     # Convert purchase date to year only
+    #     purchase_year = timezone.datetime.strptime(purchasedate, "%m/%d/%Y").strftime("%Y")
+
+    #     # Create a new DealerReview object
+    #     new_review = DealerReview(
+    #         dealership=dealer,
+    #         content=content,
+    #         purchase_check=purchasecheck,
+    #         car=CarModel.objects.get(pk=car_id),
+    #         purchase_year=purchase_year,
+    #         review_time=timezone.datetime.utcnow().isoformat()
+    #     )
+
+    #     # Save the review to the database
+    #     new_review.save()
+
+    #     # Redirect user to the dealer details page
+    #     return redirect('djangoapp:dealer_details', dealer_id=dealer_id)

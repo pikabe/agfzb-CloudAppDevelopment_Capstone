@@ -39,7 +39,7 @@
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="review">Add Review</a>
+                    <a class="nav-link" href="{% url 'djangoapp:add_review' dealer_id=dealership.id %}">Add Review</a>
                 </li>
             {% endif %}
           </ul>
