@@ -78,12 +78,12 @@
     <div class="card-columns">
         {% for review in reviews %}
           <div class="card">
-            {% if review.sentiment == 'positive' %}
-              <img class="card-img-top" src="{{ MEDIA_URL }}/emoji/positive.png" alt="Positive Emoji">
-            {% elif review.sentiment == 'neutral' %}
-              <img class="card-img-top" src="{{ MEDIA_URL }}/emoji/neutral.png" alt="Neutral Emoji">
+            {% if review.sentiment == 'POSITIVE' %}
+              <img class="card-img-top sentiment-icon" src="{{ MEDIA_URL }}/emoji/positive.png" alt="Positive Emoji">
+            {% elif review.sentiment == 'NEUTRAL' %}
+              <img class="card-img-top sentiment-icon" src="{{ MEDIA_URL }}/emoji/neutral.png" alt="Neutral Emoji">
             {% else %}
-              <img class="card-img-top" src="{{ MEDIA_URL }}/emoji/negative.png" alt="Negative Emoji">
+              <img class="card-img-top  sentiment-icon" src="{{ MEDIA_URL }}/emoji/negative.png" alt="Negative Emoji">
             {% endif %}
             
             <div class="card-body">
@@ -96,6 +96,11 @@
       </div>
 
     </body>
-    
+    <style>
+      .sentiment-icon {
+        width: 50px; /* Adjust the width to your desired size */
+        height: auto; /* Maintain aspect ratio */
+      }
+    </style>
 
 </html>

@@ -10,6 +10,8 @@ from datetime import datetime
 import logging
 import json
 from .models import CarDealer, DealerReview, CarModel
+from django.utils import timezone
+from .forms import ReviewForm
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -119,7 +121,105 @@ def add_review(request, dealer_id):
         cars = CarModel.objects.filter(dealer_id=dealer_id)
         context = {'dealer': dealer, 'cars': cars}
         return render(request, 'djangoapp/add_review.html', context)
+    elif request.method == 'POST':
+            form = ReviewForm(request.POST)
+            print(form.cleaned_data['content'])
+            # if form.is_valid():
+            #     try:
+            #         content = form.cleaned_data['content']
+            #         purchasecheck = form.cleaned_data['purchase_check']
+            #         car = form.cleaned_data['car']
+            #         purchasedate = form.cleaned_data['purchase_date']
+            #         sentiment = form.cleaned_data['sentiment']
+            #         purchase_year = purchasedate.strftime("%Y")
 
+            #         new_review = DealerReview(
+            #         dealership=dealer,
+            #         content=content,
+            #         purchase_check=purchasecheck,
+            #         car_make=car.car_make.name,
+            #         car_model=car.name,
+            #         car_year=car.year,
+            #         purchase_year=purchase_year,
+            #         review_time=timezone.datetime.utcnow().isoformat(),
+            #         sentiment=sentiment
+            #         )
+            #         new_review.save()
+            #     except Exception as e:
+            #         print(f"An error occurred while saving the review: {e}")
+
+    return redirect('djangoapp:dealer_details', dealer_id=dealer_id)
+    
+
+    # elif request.method == 'POST':
+    #     form = ReviewForm(request.POST)
+        
+    #     if form.is_valid():
+    #         # Get values from the valid form
+    #         content = form.cleaned_data['content']
+    #         purchasecheck = form.cleaned_data['purchase_check']
+    #         car = form.cleaned_data['car']
+    #         purchasedate = form.cleaned_data['purchase_date']
+    #         sentiment = form.cleaned_data['sentiment']
+
+    #         # Convert purchase date to year only
+    #         purchase_year = purchasedate.strftime("%Y")
+
+    #         # Create a new DealerReview object
+    #         new_review = DealerReview(
+    #             dealership=dealer,
+    #             content=content,
+    #             purchase_check=purchasecheck,
+    #             car_make=car.car_make.name,
+    #             car_model=car.name,
+    #             car_year=car.year,
+    #             purchase_year=purchase_year,
+    #             review_time=timezone.datetime.utcnow().isoformat(),
+    #             sentiment=sentiment
+    #         )
+
+    #         # Save the review to the database
+    #         new_review.save()
+
+    #         # Redirect user to the dealer details page
+    #         return redirect('djangoapp:dealer_details', dealer_id=dealer_id)
+    #     else:
+    #         # Form is not valid, return a response indicating the error
+    #         return render(request, 'djangoapp/add_review.html', {'dealer': dealer, 'form': form})
+
+    
+    # elif request.method == 'POST':
+    #     form = ReviewForm(request.POST)
+        
+    #     if form.is_valid():
+    #         # Get values from the valid form
+    #         content = form.cleaned_data['content']
+    #         purchasecheck = form.cleaned_data['purchase_check']
+    #         car = form.cleaned_data['car']
+    #         purchasedate = form.cleaned_data['purchase_date']
+    #         sentiment = form.cleaned_data['sentiment']
+
+    #         # Convert purchase date to year only
+    #         purchase_year = purchasedate.strftime("%Y")
+
+    #         # Create a new DealerReview object
+    #         new_review = DealerReview(
+    #             dealership=dealer,
+    #             content=content,
+    #             purchase_check=purchasecheck,
+    #             car_make=car.car_make.name,
+    #             car_model=car.name,
+    #             car_year=car.year,
+    #             purchase_year=purchase_year,
+    #             review_time=timezone.datetime.utcnow().isoformat(),
+    #             sentiment=sentiment
+    #         )
+
+    #         # Save the review to the database
+    #         new_review.save()
+
+    #         # Redirect user to the dealer details page
+    #         return redirect('djangoapp:dealer_details', dealer_id=dealer_id)
 
     # elif request.method == 'POST':
     #     # Get values from the review form
